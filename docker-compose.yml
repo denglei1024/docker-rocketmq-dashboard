@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  namesrv:
+    image: apache/rocketmq:5.1.4
+    container_name: rmqnamesrv
+    ports:
+      - 9876:9876
+    volumes:
+      - ./rocketmq/data/namesrv/logs:/home/rocketmq/logs
+      - ./rocketmq/data/namesrv/store:/home/rocketmq/store
+    command: sh mqnamesrv
+    networks:
+      - rmq
+    restart: always
+
+  broker:
+    image: apache/rocketmq:5.1.4
+    container_name: rmqbroker
+    ports:
+      - 10909:10909
+      - 10911:10911
+      - 10912:10912
+    volumes:
+      - ./rocketmq/data/broker/logs:/home/rocketmq/logs
+      - ./rocketmq/data/broker/store:/home/rocketmq/store
+      - ./rocketmq/config/broker.conf:/home/rocketmq/rocketmq-5.1.4/conf/broker.conf
+    command: sh mqbroker -n namesrv:9876 -c ../conf/broker.conf
+    depends_on:
+      - namesrv
+    networks:
+      - rmq
+    restart: always
+
+  dashboard:
+    image: apacherocketmq/rocketmq-dashboard:latest
+    container_name: rocketmq-dashboard
+    ports:
+      - 8080:8080
+    environment:
+      - JAVA_OPTS=-Drocketmq.namesrv.addr=namesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
+    depends_on:
+      - namesrv
+    networks:
+      - rmq
+    restart: always
+
+networks:
+  rmq:
+    driver: bridge
