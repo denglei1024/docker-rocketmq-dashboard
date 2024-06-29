@@ -7,13 +7,13 @@
 1. 克隆此仓库到您的环境中
 
 ```bash
-git clone https://github.com/yourusername/windows-wsl2-rocketmq-dashboard.git
-cd windows-wsl2-rocketmq-dashboard
+git clone git@github.com:denglei1024/docker-rocketmq-dashboard.git
+cd docker-rocketmq-dashboard
 ```
 
 2、修改 conf/broker.conf 配置
 3、使用 docker-compose up 命令启动容器
-```shell
+```bash
 rocketmq docker-compose -p rocketmql_project up -d
 ```
 4、部署完成后，可以通过以下地址访问 RocketMQ Dashboard：
