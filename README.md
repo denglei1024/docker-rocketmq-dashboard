@@ -12,6 +12,7 @@ cd docker-rocketmq-dashboard
 ```
 
 2、修改 conf/broker.conf 配置
+修改宿主机IP`brokerIP1=192.168.31.228`
 
 3、使用 docker-compose up 命令启动容器
 ```bash
