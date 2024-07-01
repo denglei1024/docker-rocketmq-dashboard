@@ -24,9 +24,9 @@ services:
       - 10911:10911
       - 10912:10912
     environment:
-      - NAMESRV_ADDR=rmqnamesrv:9876
       - MAX_HEAP_SIZE=512M
       - HEAP_NEWSIZE=256M
+      - NAMESRV_ADDR=rmqnamesrv:9876
     volumes:
       - ./data/broker/logs:/home/rocketmq/logs
       - ./data/broker/store:/home/rocketmq/store
@@ -44,7 +44,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - JAVA_OPTS=-Drocketmq.namesrv.addr=namesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
+      - JAVA_OPTS=-Drocketmq.namesrv.addr=rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
     depends_on:
       - namesrv
     networks:
